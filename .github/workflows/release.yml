@@ -1,0 +1,37 @@
+name: Release
+
+# Pushing a v* tag runs the tests, then publishes to npm with provenance. The npm job stays off until
+# the package exists on npm with this workflow as its trusted publisher; then set the repository
+# variable NPM_TRUSTED_PUBLISHING to true.
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: read
+
+jobs:
+  npm:
+    name: Publish subtext-scan to npm
+    if: vars.NPM_TRUSTED_PUBLISHING == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - name: Tag matches the package version
+        run: test "${GITHUB_REF_NAME}" = "v$(node -p 'require("./package.json").version')"
+      - run: npm run smoke:package
+      - name: Publish with provenance (npm trusted publishing, no stored token)
+        run: npm publish --provenance --access public

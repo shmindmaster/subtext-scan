@@ -1,0 +1,67 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Node ${{ matrix.node }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        node: [22, 24]
+        include:
+          - os: windows-latest
+            node: 24
+          - os: macos-latest
+            node: 24
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+      - run: npm ci
+      - name: Audit production dependencies
+        run: npm audit --omit=dev --audit-level=high
+      - run: npm test
+      - run: npm run typecheck
+      - name: The fixtures corpus is reproducible from the generator
+        shell: bash
+        run: |
+          npm run fixtures
+          test -z "$(git status --porcelain --untracked-files=all -- fixtures/)" || { git status --short -- fixtures/; exit 1; }
+      - name: The npm package installs and runs on its own
+        run: npm run smoke:package
+
+  # The scanner is meant to gate pipelines; gate this repo's own docs with it.
+  dogfood:
+    name: Scan the repository's own docs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Malicious fixtures fail the gate; the docs do not
+        shell: bash
+        run: |
+          set +e
+          node bin/subtext-scan.mjs -q fixtures/pdf/heatlot-mill-report.pdf; code=$?
+          set -e
+          test "$code" -eq 1
+          node bin/subtext-scan.mjs CONTRIBUTING.md SECURITY.md NOTICE
