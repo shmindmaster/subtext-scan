@@ -308,7 +308,8 @@ function docx(name, { body, styles, core, comments, raw }, expect) {
   if (styles) files['word/styles.xml'] = strToU8(`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:styles ${W}>${styles}</w:styles>`);
   if (comments) files['word/comments.xml'] = strToU8(`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:comments ${W}>${comments}</w:comments>`);
   if (core) files['docProps/core.xml'] = strToU8(`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/">${core}</cp:coreProperties>`);
-  writeFileSync(path.join(ROOT, 'docx', name), zipSync(files, { mtime: FIXED, level: 6 }));
+  // ZIP stores local wall-clock time; building the date from local fields encodes the same bytes in every time zone.
+  writeFileSync(path.join(ROOT, 'docx', name), zipSync(files, { mtime: new Date(2026, 0, 1, 0, 0, 0), level: 6 }));
   manifest.push({ file: `docx/${name}`, ...expect });
 }
 
