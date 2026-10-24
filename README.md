@@ -35,6 +35,10 @@ cat chunk.md | npx subtext-scan scan -            # stdin
 
 Requires Node.js 22.13 or newer.
 
+> **Not on npm yet.** Until the first npm release, run it from the GitHub release tarball:
+> `npx --package https://github.com/shmindmaster/subtext-scan/releases/download/v0.1.0/subtext-scan-0.1.0.tgz subtext-scan scan file.pdf`.
+> To add it to a project: `npm install https://github.com/shmindmaster/subtext-scan/releases/download/v0.1.0/subtext-scan-0.1.0.tgz`.
+
 ## What it catches
 
 | Technique | Formats | How it is detected | Severity |
