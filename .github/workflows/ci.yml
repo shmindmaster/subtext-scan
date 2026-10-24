@@ -61,7 +61,7 @@ jobs:
         shell: bash
         run: |
           set +e
-          node bin/subtext-scan.mjs -q fixtures/pdf/heatlot-mill-report.pdf; code=$?
+          node bin/subtext-scan.mjs -q fixtures/pdf/supplier-certificate-hidden-note.pdf; code=$?
           set -e
           test "$code" -eq 1
           node bin/subtext-scan.mjs CONTRIBUTING.md SECURITY.md NOTICE

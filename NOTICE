@@ -3,10 +3,10 @@ Copyright 2026 Sarosh Hussain
 
 This product is licensed under the Apache License, Version 2.0 (see LICENSE).
 
-It was extracted from Heatlot (https://github.com/shmindmaster/heatlot),
-Copyright 2026 Sarosh Hussain, also licensed under the Apache License,
-Version 2.0. The PDF text-layer reading and the hidden-text and
-instruction-shaped tripwires originate there.
+It was extracted from the author's earlier reference implementation for
+AI-assisted receiving inspection, Copyright 2026 Sarosh Hussain, also
+licensed under the Apache License, Version 2.0. The PDF text-layer reading
+and the hidden-text and instruction-shaped tripwires originate there.
 
 Runtime dependencies are installed from npm, not bundled, and keep their own
 licenses: pdfjs-dist (Apache-2.0, Mozilla Foundation), @modelcontextprotocol/server

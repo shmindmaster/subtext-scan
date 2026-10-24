@@ -162,7 +162,7 @@ npm run smoke:package  # pack, install into an empty directory, run
 
 ## Origin
 
-Extracted from [Heatlot](https://github.com/shmindmaster/heatlot), a reference implementation for AI-assisted receiving inspection. Heatlot treats a hidden line in a supplier certificate as a tripwire and never lets it feed a release decision. `subtext-scan` makes that check a standalone tool and extends it with colour, position, layer, cover, metadata and DOCX/HTML checks.
+Extracted from the author's earlier reference implementation for AI-assisted receiving inspection, which treats a hidden line in a supplier certificate as a tripwire and never lets it feed a release decision. `subtext-scan` makes that check a standalone tool and extends it with colour, position, layer, cover, metadata and DOCX/HTML checks.
 
 ## License
 
