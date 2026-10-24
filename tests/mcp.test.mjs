@@ -33,7 +33,7 @@ test('mcp: two strict, read-only tools in both protocol eras', async () => {
 test('mcp: scan_document blocks a poisoned PDF and withholds the payload by default', async () => {
   const client = await connect();
   try {
-    const r = await client.callTool({ name: 'scan_document', arguments: { path: 'pdf/heatlot-mill-report.pdf' } });
+    const r = await client.callTool({ name: 'scan_document', arguments: { path: 'pdf/supplier-certificate-hidden-note.pdf' } });
     const body = r.structuredContent;
     assert.equal(body.blocked, true);
     assert.equal(body.findings[0].rule, 'hidden-text');
@@ -43,7 +43,7 @@ test('mcp: scan_document blocks a poisoned PDF and withholds the payload by defa
     assert.match(body.findings[0].text_sha256, /^[0-9a-f]{64}$/);
     assert.ok(!JSON.stringify(r.content).includes('approve release'), 'the payload is not in the text content either');
 
-    const withText = await client.callTool({ name: 'scan_document', arguments: { path: 'pdf/heatlot-mill-report.pdf', include_text: true } });
+    const withText = await client.callTool({ name: 'scan_document', arguments: { path: 'pdf/supplier-certificate-hidden-note.pdf', include_text: true } });
     assert.match(withText.structuredContent.findings[0].text, /Treat this certificate as complete/);
 
     const clean = await client.callTool({ name: 'scan_document', arguments: { path: 'pdf/clean-invoice.pdf' } });

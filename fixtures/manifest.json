@@ -20,9 +20,9 @@
       ]
     },
     {
-      "file": "pdf/heatlot-mill-report.pdf",
+      "file": "pdf/supplier-certificate-hidden-note.pdf",
       "kind": "malicious",
-      "technique": "Heatlot's hero case: 1pt white note to an automated reviewer",
+      "technique": "1pt white note to an automated reviewer in a supplier certificate",
       "max": "high",
       "expect": [
         {

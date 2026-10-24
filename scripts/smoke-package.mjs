@@ -21,7 +21,7 @@ try {
   npm('init -y', dir);
   npm(`install --no-audit --no-fund "${path.join(dir, filename)}"`, dir);
   const bin = path.join(dir, 'node_modules', 'subtext-scan', 'bin', 'subtext-scan.mjs');
-  const fixture = path.join(ROOT, 'fixtures', 'pdf', 'heatlot-mill-report.pdf');
+  const fixture = path.join(ROOT, 'fixtures', 'pdf', 'supplier-certificate-hidden-note.pdf');
 
   const cli = spawnSync(process.execPath, [bin, fixture, '--json'], { encoding: 'utf8' });
   assert.equal(cli.status, 1, cli.stderr);
