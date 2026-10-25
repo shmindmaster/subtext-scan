@@ -2,6 +2,8 @@
 
 **Catch the instructions hidden in a document before your agent follows them.**
 
+![subtext-scan flags a hidden 1pt white-on-white instruction in a supplier certificate PDF as HIGH and exits 1](docs/media/subtext-scan-demo.gif)
+
 A PDF can say one thing to the person reviewing it and another to the model reading it. White text on a white page, a 1pt line at the bottom, a paragraph parked off the page, a layer that is switched off, a comment, a metadata field: a person never sees them, but a text extractor returns them, and the model reads them the same way it reads the rest of the document.
 
 `subtext-scan` reads PDF, DOCX, HTML and text the way an extractor does. For every piece of text, it checks whether a person could actually see it, and whether it is worded as an instruction to a model. It reports each finding with the page, the bounding box, a one-line reason and a severity. It exits non-zero when you should not let the document through.
