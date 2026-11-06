@@ -35,7 +35,7 @@ cat chunk.md | npx subtext-scan scan -            # stdin
 | 1 | At least one finding at or above `--fail-on` |
 | 2 | A file could not be scanned (missing, encrypted, unsupported) or the arguments were wrong |
 
-Requires Node.js 22.13 or newer, on Windows, macOS or Linux (CI runs the full suite on all three).
+Requires Node.js 22.13 or newer. CI runs the suite in Docker.
 
 > **Not on npm yet.** Until the first npm release, run it from the GitHub release tarball:
 > `npx --package https://github.com/shmindmaster/subtext-scan/releases/download/v0.1.0/subtext-scan-0.1.0.tgz subtext-scan scan file.pdf`.

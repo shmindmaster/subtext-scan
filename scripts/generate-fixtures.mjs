@@ -7,7 +7,7 @@
  *
  *   node scripts/generate-fixtures.mjs
  */
-import { mkdirSync, rmSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { strToU8, zipSync, zlibSync } from 'fflate';
@@ -377,7 +377,9 @@ function htmlFixtures() {
   manifest.push({ file: 'text/clean.md', kind: 'benign', technique: 'Ordinary policy text that mentions "previous instructions" harmlessly', max: null, expect: [] });
 }
 
-rmSync(ROOT, { recursive: true, force: true });
+// Empty the directory in place. Removing ROOT itself fails when it is a mount.
+for (const name of readdirSync(ROOT)) rmSync(path.join(ROOT, name), { recursive: true, force: true });
+mkdirSync(ROOT, { recursive: true });
 for (const dir of ['pdf', 'docx', 'html', 'text']) mkdirSync(path.join(ROOT, dir), { recursive: true });
 await pdfFixtures();
 docxFixtures();
