@@ -37,9 +37,7 @@ cat chunk.md | npx subtext-scan scan -            # stdin
 
 Requires Node.js 22.13 or newer. CI runs the suite in Docker.
 
-> **Not on npm yet.** Until the first npm release, run it from the GitHub release tarball:
-> `npx --package https://github.com/shmindmaster/subtext-scan/releases/download/v0.1.0/subtext-scan-0.1.0.tgz subtext-scan scan file.pdf`.
-> To add it to a project: `npm install https://github.com/shmindmaster/subtext-scan/releases/download/v0.1.0/subtext-scan-0.1.0.tgz`.
+Add the npm package to a project with `npm install subtext-scan`.
 
 ## What it catches
 
@@ -153,11 +151,10 @@ There is no Python wrapper, because Python users already have good options. From
 ## Develop
 
 ```bash
-npm ci
-npm test               # unit, CLI, MCP and fixtures-corpus tests
-npm run typecheck
-npm run fixtures       # regenerate fixtures/ (CI fails if the output changes)
-npm run smoke:package  # pack, install into an empty directory, run
+docker compose run --build --rm test
+docker compose run --rm typecheck
+docker compose run --rm fixtures
+docker compose run --rm test npm run smoke:package
 ```
 
 `fixtures/` holds synthetic malicious and benign PDF, DOCX, HTML and text files. `scripts/generate-fixtures.mjs` builds every one of them from scratch, and `fixtures/manifest.json` records what each must produce. No third-party documents are included.
